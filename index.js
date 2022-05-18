@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
 
     //Emite el mensaje de chat hacia el cliente
     socket.on('chat message', (msg) => {
-        io.emit('chat message', msg);
+        socket.broadcast.emit('chat message', msg);
     });
 
     //Genero un nuevo username
