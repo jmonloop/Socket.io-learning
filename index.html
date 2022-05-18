@@ -62,6 +62,7 @@
 </head>
 
 <body>
+    <h2 id="myself"></h2>
     <ul id="messages"></ul>
     <form id="form" action="">
         <input id="input" autocomplete="off" /><button>Send</button>
@@ -69,6 +70,11 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io();
+
+        socket.on('myself', (userName)=> {
+            document.getElementById('myself').innerHTML = userName;
+        });
+        
 
         var messages = document.getElementById('messages');
         var form = document.getElementById('form');

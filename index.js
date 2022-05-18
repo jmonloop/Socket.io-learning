@@ -25,10 +25,17 @@ const generateUserName = () => {
 //Cuando se conecte un cliente, se ejecutará el método
 io.on('connection', (socket) => {
 
+    //Guardo el socket.id
+    const myId = socket.id;
+
     //Genero un nuevo username
     let user = generateUserName();
+    socket.emit('myself', user);
 
-    //Emite el username y el mensaje de chat hacia el resto de usuarios
+    //Emito el username de quien se conectó hacia el resto de usuarios
+    socket.broadcast.emit('user', user);
+
+    //Emito el username y el mensaje de chat hacia el resto de usuarios
     socket.on('chat message', (msg) => {
         socket.broadcast.emit(
             'chat message',
@@ -38,7 +45,6 @@ io.on('connection', (socket) => {
     });
 
 
-    socket.broadcast.emit('user', user);
 });
 
 //Escucho el puerto 3000
