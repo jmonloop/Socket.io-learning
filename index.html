@@ -81,8 +81,15 @@
                 input.value = '';
             }
         });
-
+        //Imprime el mensaje de chat cada vez que un usuario lo envía
         socket.on('chat message', function (msg) {
+            var item = document.createElement('li');
+            item.textContent = msg;
+            messages.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+        //Imprime el mensaje 'A user connected' cada vez que se conecta un nuevo usuario
+        socket.on('broadcast message', function (msg) {
             var item = document.createElement('li');
             item.textContent = msg;
             messages.appendChild(item);

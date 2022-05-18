@@ -19,6 +19,9 @@ app.get('/', (req, res) => {
 
 //Cuando se conecte un cliente, se ejecutará el método
 io.on('connection', (socket) => {
+    //Emite el mensaje 'A user connected' al resto de usuarios conectados
+    socket.broadcast.emit('broadcast message', 'A user connected');
+    //Emite el mensaje de chat hacia el cliente
     socket.on('chat message', (msg) => {
         io.emit('chat message', msg);
       });
