@@ -25,15 +25,19 @@ const generateUserName = () => {
 //Cuando se conecte un cliente, se ejecutará el método
 io.on('connection', (socket) => {
 
-
-    //Emite el mensaje de chat hacia el cliente
-    socket.on('chat message', (msg) => {
-        socket.broadcast.emit('chat message', msg);
-    });
-
     //Genero un nuevo username
     let user = generateUserName();
-    //Emite el objeto user al resto de usuarios conectados
+
+    //Emite el username y el mensaje de chat hacia el resto de usuarios
+    socket.on('chat message', (msg) => {
+        socket.broadcast.emit(
+            'chat message',
+            user,
+            msg
+        );
+    });
+
+
     socket.broadcast.emit('user', user);
 });
 
