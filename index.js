@@ -17,14 +17,24 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
+
+const generateUserName = () => {
+    return `User${Math.floor(Math.random() * 10000)}`;
+}
+
 //Cuando se conecte un cliente, se ejecutará el método
 io.on('connection', (socket) => {
-    //Emite el mensaje 'A user connected' al resto de usuarios conectados
-    socket.broadcast.emit('broadcast message', 'A user connected');
+
+
     //Emite el mensaje de chat hacia el cliente
     socket.on('chat message', (msg) => {
         io.emit('chat message', msg);
-      });
+    });
+
+    //Genero un nuevo username
+    let user = generateUserName();
+    //Emite el objeto user al resto de usuarios conectados
+    socket.broadcast.emit('user', user);
 });
 
 //Escucho el puerto 3000

@@ -88,10 +88,12 @@
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
         });
-        //Imprime el mensaje 'A user connected' cada vez que se conecta un nuevo usuario
-        socket.on('broadcast message', function (msg) {
+        
+
+        //Recibo el objeto user que contiene el nombre del usuario que se conectó y lo imprimo
+        socket.on('user', function (user) {
             var item = document.createElement('li');
-            item.textContent = msg;
+            item.textContent = 'A user connected: ' + user;
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
         });
