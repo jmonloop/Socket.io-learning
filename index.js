@@ -44,6 +44,11 @@ io.on('connection', (socket) => {
         );
     });
 
+    //Recibo que hay cambios en el input, por lo que emito a los demás usuarios
+    socket.on('typing', (userName)=> {
+        socket.broadcast.emit('typing', userName);
+    })
+
 
 });
 

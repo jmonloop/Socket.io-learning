@@ -64,15 +64,19 @@
 <body>
     <h2 id="myself"></h2>
     <ul id="messages"></ul>
+    <p id="typing"></p>
     <form id="form" action="">
         <input id="input" autocomplete="off" /><button>Send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io();
+        let myself = '';
 
+        //Muestro el nombre de usuario arriba
         socket.on('myself', (userName)=> {
             document.getElementById('myself').innerHTML = userName;
+            myself= userName;
         });
         
 
@@ -87,6 +91,24 @@
                 input.value = '';
             }
         });
+
+        //Detecto cambios en el input y emito hacia el backend
+        input.addEventListener('input', () => {
+            socket.emit('typing', myself)
+        });
+        
+        //Recibo la respuesta del backend, por lo que imprimo typing 
+        socket.on('typing', (userName) => {
+            let timeout;
+            document.getElementById('typing').innerHTML = userName + ' is typing...';
+
+            //Pasados 2seg borro el aviso
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                document.getElementById('typing').innerHTML = '';
+            }, 2000);
+        });
+
 
         //Recibo el objeto user que contiene el nombre del usuario que se conectó y lo imprimo
         socket.on('user', (user) => {
